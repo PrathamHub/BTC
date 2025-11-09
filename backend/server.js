@@ -17,16 +17,17 @@ connectDB();
 const app = express();
 const allowedOrigins = ["https://btc-1-3i51.onrender.com"];
 // Middleware
-app.use(cors({
+app.use( cors({
     origin: function (origin, callback) {
       if (!origin || allowedOrigins.includes(origin)) {
         callback(null, true);
       } else {
-        callback(new Error("❌ Not allowed by CORS"));
+        console.log("❌ Blocked by CORS:", origin);
+        callback(new Error("Not allowed by CORS"));
       }
     },
-    credentials: true, // if you ever send cookies / tokens
-}));
+    credentials: true,
+  }));
 app.use(express.json());
 
 // Routes
