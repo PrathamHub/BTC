@@ -159,7 +159,7 @@ const CreateBill = () => {
               try {
                 // 🔹 Call backend API to get matching customer names
                 const res = await axios.get(
-                  `http://localhost:5000/api/customers/search?q=${e.target.value}`
+                  `https://btc-efgq.onrender.com/api/customers/search?q=${e.target.value}`
                 );
                 setCustomerSuggestions(res.data); // expects array of { name: "John Doe" }
               } catch (err) {
