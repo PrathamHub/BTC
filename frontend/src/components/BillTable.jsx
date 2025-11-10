@@ -1,21 +1,30 @@
-import React from "react";
+import React, { useEffect, useRef } from "react";
 
-const BillTable = ({ billItems, updateItem, removeItem }) => {
+const BillTable = ({ billItems, updateItem, removeItem, focusProductId }) => {
+  const inputRefs = useRef({});
+
+  // Automatically focus the quantity input (bags) when a new product is added
+  useEffect(() => {
+    if (focusProductId && inputRefs.current[focusProductId]) {
+      inputRefs.current[focusProductId].focus();
+    }
+  }, [focusProductId]);
+
   // Prevent negatives and handle empty inputs
   const handleChange = (id, field, value) => {
     if (value === "") {
-      updateItem(id, field, ""); // allow empty temporarily
+      updateItem(id, field, "");
       return;
     }
 
     const numValue = Number(value);
-    if (numValue < 0) return; // ❌ block negative
+    if (numValue < 0) return;
     updateItem(id, field, numValue);
   };
 
   const handleBlur = (id, field, value) => {
     if (value === "" || isNaN(value)) {
-      updateItem(id, field, 0); // reset to 0 on blur if left empty
+      updateItem(id, field, 0);
     }
   };
 
@@ -70,6 +79,7 @@ const BillTable = ({ billItems, updateItem, removeItem }) => {
 
                 <td className="border p-2 flex justify-center gap-2">
                   <input
+                    ref={(el) => (inputRefs.current[item.id] = el)} // 👈 reference for focus
                     type="number"
                     min="0"
                     placeholder="Bags"

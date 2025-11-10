@@ -15,10 +15,10 @@ const CreateBill = () => {
   const [grandTotal, setGrandTotal] = useState(0);
   const [customerName, setCustomerName] = useState("");
   const [customerSuggestions, setCustomerSuggestions] = useState([]);
-
+  const [focusedProductId, setFocusedProductId] = useState(null);
   const addProduct = (product) => {
     if (billItems.find((item) => item.id === product.id)) return;
-    setBillItems([
+    const newItems = [
       ...billItems,
       {
         ...product,
@@ -27,7 +27,9 @@ const CreateBill = () => {
         pieces: 0,
         total: product.sellingPrice,
       },
-    ]);
+    ];
+    setBillItems(newItems);
+    setFocusedProductId(product.id); // 👈 Focus this product’s quantity field
   };
 
   const updateItem = (id, field, value) => {
@@ -180,6 +182,7 @@ const CreateBill = () => {
               billItems={billItems}
               updateItem={updateItem}
               removeItem={removeItem}
+              focusProductId={focusedProductId}
             />
           </div>
 
