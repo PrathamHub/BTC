@@ -14,7 +14,7 @@ export default function Navbar() {
       <div className="max-w-7xl mx-auto flex justify-between items-center">
         {/* Logo */}
         <h1 className="text-3xl font-extrabold tracking-tight text-transparent bg-clip-text bg-gradient-to-r from-yellow-400 to-orange-500 hover:from-orange-400 hover:to-yellow-400 transition-all duration-500">
-          <Link to="/">Fena App</Link>
+          <Link to="/fena">Fena App</Link>
         </h1>
 
         {/* Desktop Menu */}
@@ -32,7 +32,7 @@ export default function Navbar() {
               <ul className="absolute right-0 mt-3 bg-white text-gray-800 rounded-xl shadow-lg w-48 overflow-hidden animate-fade-in border border-gray-200 z-20">
                 <li>
                   <Link
-                    to="/stocks"
+                    to="/fena/stocks"
                     onClick={() => setIsDropdownOpen(false)}
                     className="block px-5 py-2.5 hover:bg-gray-100 hover:text-black transition duration-150"
                   >
@@ -41,7 +41,7 @@ export default function Navbar() {
                 </li>
                 <li>
                   <Link
-                    to="/stocks/update"
+                    to="/fena/stocks/update"
                     onClick={() => setIsDropdownOpen(false)}
                     className="block px-5 py-2.5 hover:bg-gray-100 hover:text-black transition duration-150"
                   >
@@ -111,7 +111,7 @@ export default function Navbar() {
           </div>
 
           <Link
-            to="/bills"
+            to="/fena/bills"
             onClick={() => setIsMenuOpen(false)}
             className="block py-2 hover:bg-gray-700 rounded-md text-yellow-300 font-semibold"
           >
