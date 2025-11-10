@@ -15,9 +15,13 @@ connectDB();
 
 // Initialize Express app
 const app = express();
-const allowedOrigins = ["https://btc-1-3i51.onrender.com"];
+const allowedOrigins = [
+  "https://btc-1-3i51.onrender.com",
+  "http://localhost:5173",
+];
 // Middleware
-app.use( cors({
+app.use(
+  cors({
     origin: function (origin, callback) {
       if (!origin || allowedOrigins.includes(origin)) {
         callback(null, true);
@@ -27,7 +31,8 @@ app.use( cors({
       }
     },
     credentials: true,
-  }));
+  })
+);
 app.use(express.json());
 
 // Routes

@@ -7,15 +7,17 @@ import GetAllStock from "./components/stock/GetAllStock";
 import UpdateStock from "./components/stock/UpdateStock";
 import AllBills from "./components/AllBills";
 
+import Home from "./pages/Home";
 function App() {
   return (
     <>
       <Navbar />
       <Routes>
-        <Route path="/" element={<CreateBill />} />
-        <Route path="/bills" element={<AllBills />} />
-        <Route path="/stocks" element={<GetAllStock />} />
-        <Route path="/stocks/update" element={<UpdateStock />} />
+        <Route path="/" element={<Home />} />
+        <Route path="/fena" element={<CreateBill />} />
+        <Route path="/fena/bills" element={<AllBills />} />
+        <Route path="/fena/stocks" element={<GetAllStock />} />
+        <Route path="/fena/stocks/update" element={<UpdateStock />} />
       </Routes>
 
       <ToastContainer
