@@ -15,8 +15,8 @@ connectDB();
 
 // Initialize Express app
 const app = express();
-const allowedOrigins = ["https://btc-1-3i51.onrender.com"];
-// Middleware
+const allowedOrigins = ["https://btc-1-3i51.onrender.com","http://localhost:5173"];
+// Middleware,
 app.use( cors({
     origin: function (origin, callback) {
       if (!origin || allowedOrigins.includes(origin)) {
