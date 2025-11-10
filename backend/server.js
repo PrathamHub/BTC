@@ -15,10 +15,10 @@ connectDB();
 
 // Initialize Express app
 const app = express();
-const allowedOrigins = [
-  "https://btc-1-3i51.onrender.com",
-  "http://localhost:5173",
-];
+const allowedOrigins =
+  process.env.NODE_ENV === "production"
+    ? ["https://btc-1-3i51.onrender.com"] // only frontend URL when deployed
+    : ["http://localhost:5173"]; // local dev frontend
 // Middleware
 app.use(
   cors({
