@@ -55,7 +55,7 @@ export default function Navbar() {
           {/* Bills Link */}
           <li>
             <Link
-              to="/bills"
+              to="/fena/bills"
               className="relative hover:text-yellow-400 transition duration-300 after:content-[''] after:absolute after:left-0 after:-bottom-1 after:w-0 after:h-[2px] after:bg-yellow-400 hover:after:w-full after:transition-all after:duration-300"
             >
               All Bills
@@ -87,7 +87,7 @@ export default function Navbar() {
             {isDropdownOpen && (
               <div className="mt-2 space-y-1">
                 <Link
-                  to="/stocks"
+                  to="/fena/stocks"
                   onClick={() => {
                     setIsMenuOpen(false);
                     setIsDropdownOpen(false);
@@ -97,7 +97,7 @@ export default function Navbar() {
                   Get All Stock
                 </Link>
                 <Link
-                  to="/stocks/update"
+                  to="/fena/stocks/update"
                   onClick={() => {
                     setIsMenuOpen(false);
                     setIsDropdownOpen(false);
