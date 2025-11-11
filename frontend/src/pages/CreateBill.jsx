@@ -7,6 +7,7 @@ import { createBill } from "../services/api";
 import { products } from "../data/Product";
 import { toast } from "react-toastify";
 import axios from "axios";
+const API_BASE_URL = import.meta.env.VITE_API_BASE_URL;
 
 const CreateBill = () => {
   const [note, setNote] = useState("");
@@ -145,7 +146,7 @@ const CreateBill = () => {
 
               try {
                 const res = await axios.get(
-                  `https://btc-efgq.onrender.com/api/customers/search?q=${e.target.value}`
+                  `${API_BASE_URL}/customers/search?q=${e.target.value}`
                 );
                 setCustomerSuggestions(res.data);
               } catch (err) {
