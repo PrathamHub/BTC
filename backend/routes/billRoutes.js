@@ -8,6 +8,7 @@ import {
 
 const router = express.Router();
 router.delete("/:id", deleteBill);
+// router.put("/update/:id", updateBill);
 router.post("/create", createBill);
 router.get("/", getAllBills);
 router.get("/:name", getBillsByCustomer);

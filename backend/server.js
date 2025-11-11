@@ -7,6 +7,7 @@ import connectDB from "./config/db.js";
 import customerRoutes from "./routes/customerRoutes.js";
 import stockRoutes from "./routes/stockRoutes.js";
 import BillRoutes from "./routes/billRoutes.js";
+import authRoutes from "./routes/authRoutes.js";
 // Load environment variables
 dotenv.config();
 
@@ -39,7 +40,7 @@ app.use(express.json());
 app.use("/api/customers", customerRoutes);
 app.use("/api/stocks", stockRoutes);
 app.use("/api/bill", BillRoutes);
-
+app.use("/api/auth", authRoutes);
 // Default route
 app.get("/", (req, res) => {
   res.send("Fena Project API is running 🚀");

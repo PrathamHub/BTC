@@ -8,16 +8,47 @@ import UpdateStock from "./components/stock/UpdateStock";
 import AllBills from "./components/AllBills";
 
 import Home from "./pages/Home";
+import Login from "./components/Login";
+import ProtectedRoute from "./components/ProtectedRoute";
 function App() {
   return (
     <>
       <Navbar />
       <Routes>
+        <Route path="/login" element={<Login />} />
         <Route path="/" element={<Home />} />
-        <Route path="/fena" element={<CreateBill />} />
-        <Route path="/fena/bills" element={<AllBills />} />
-        <Route path="/fena/stocks" element={<GetAllStock />} />
-        <Route path="/fena/stocks/update" element={<UpdateStock />} />
+        <Route
+          path="/fena"
+          element={
+            <ProtectedRoute>
+              <CreateBill />
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="/fena/bills"
+          element={
+            <ProtectedRoute>
+              <AllBills />
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="/fena/stocks"
+          element={
+            <ProtectedRoute>
+              <GetAllStock />
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="/fena/stocks/update"
+          element={
+            <ProtectedRoute>
+              <UpdateStock />
+            </ProtectedRoute>
+          }
+        />
       </Routes>
 
       <ToastContainer

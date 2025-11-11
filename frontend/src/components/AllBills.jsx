@@ -11,7 +11,7 @@ const AllBills = () => {
       const data = await getAllBills();
       setBills(Array.isArray(data) ? data : []);
     } catch (error) {
-      toast.error("❌ Failed to fetch bills from server!");
+      toast.error("❌ Failed to fetch bills from server!", error);
     } finally {
       setLoading(false);
     }

@@ -33,8 +33,10 @@ export const getAllBills = async () => {
 export const getBillByCustomerName = async (name) =>
   api.get(`/bills/customer/${name}`);
 export const getTotalRevenue = async () => api.get("/bills/total");
-export const updateBill = async (id, updatedData) =>
-  api.put(`/bills/${id}`, updatedData);
+export const updateBill = async (id, billData) => {
+  const res = await api.put(`/bill/update/${id}`, billData);
+  return res.data;
+};
 export const deleteBill = async (id) => {
   try {
     const response = await axios.delete(`${API_BASE_URL}/bill/${id}`);
