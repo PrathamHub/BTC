@@ -2,11 +2,13 @@ import React, { useState } from "react";
 import axios from "axios";
 import { toast } from "react-toastify";
 import { useNavigate } from "react-router-dom";
+import { useAuth } from "../context/AuthContext";
 
 const Login = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const navigate = useNavigate();
+  const { login } = useAuth(); // ✅ use context
 
   const handleLogin = async (e) => {
     e.preventDefault();
@@ -15,7 +17,8 @@ const Login = () => {
         `${import.meta.env.VITE_API_BASE_URL}/auth/login`,
         { email, password }
       );
-      localStorage.setItem("token", res.data.token);
+
+      login(res.data.token); // ✅ updates context instantly
       toast.success("✅ Logged in successfully!");
       navigate("/fena");
     } catch (err) {

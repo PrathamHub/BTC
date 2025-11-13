@@ -1,7 +1,22 @@
 import React from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
+import { toast } from "react-toastify";
 
 const Home = () => {
+  const navigate = useNavigate();
+
+  // ✅ Logout Handler
+  const handleLogout = () => {
+    // Remove token from localStorage
+    localStorage.removeItem("token");
+
+    // Show toast message
+    toast.success("✅ Logged out successfully!");
+
+    // Redirect to login page
+    navigate("/login");
+  };
+
   return (
     <div className="flex flex-col items-center justify-center min-h-screen bg-blue-50 text-center">
       <h1 className="text-4xl font-bold mb-4 text-blue-700">
@@ -24,6 +39,12 @@ const Home = () => {
         >
           View Stocks
         </Link>
+        <button
+          onClick={handleLogout}
+          className="bg-red-600 text-white px-5 py-2 rounded-lg hover:bg-red-700 transition"
+        >
+          Logout
+        </button>
       </div>
     </div>
   );
