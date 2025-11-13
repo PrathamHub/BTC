@@ -46,6 +46,10 @@ export const deleteBill = async (id) => {
     throw error;
   }
 };
+export const updateBillAPI = async (id, updatedData) => {
+  const res = await api.put(`/bill/${id}`, updatedData);
+  return res.data;
+};
 
 // -------------------- 📦 Stock APIs --------------------
 
