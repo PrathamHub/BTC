@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import axios from "axios";
 import { toast } from "react-toastify";
 import { useNavigate } from "react-router-dom";
-import { useAuth } from "../context/AuthContext";
+import { useAuth } from "../context/AuthContext.jsx";
 
 const Login = () => {
   const [email, setEmail] = useState("");
@@ -22,6 +22,8 @@ const Login = () => {
       toast.success("✅ Logged in successfully!");
       navigate("/fena");
     } catch (err) {
+      console.log(err);
+
       toast.error("❌ Invalid email or password");
     }
   };
