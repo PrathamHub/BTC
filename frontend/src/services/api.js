@@ -68,4 +68,11 @@ export const updateProduct = async (id, updatedData) =>
   api.put(`/products/${id}`, updatedData);
 export const deleteProduct = async (id) => api.delete(`/products/${id}`);
 
+export const getBillsByCustomerName = async (customerName) =>
+  api.get(`/customers/getAllBills/${customerName}`);
+
+export const searchCustomerAPI = async (query) => {
+  const res = await axios.get(`${API_BASE_URL}/customers/search?q=${query}`);
+  return res.data;
+};
 export default api;

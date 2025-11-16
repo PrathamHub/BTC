@@ -7,13 +7,8 @@ const Home = () => {
 
   // ✅ Logout Handler
   const handleLogout = () => {
-    // Remove token from localStorage
     localStorage.removeItem("token");
-
-    // Show toast message
     toast.success("✅ Logged out successfully!");
-
-    // Redirect to login page
     navigate("/login");
   };
 
@@ -26,19 +21,32 @@ const Home = () => {
         Manage your bills, track stock, and simplify your business.
       </p>
 
-      <div className="flex gap-4">
+      <div className="flex flex-col sm:flex-row gap-4">
+        {/* Billing Button */}
         <Link
           to="/fena"
           className="bg-blue-600 text-white px-5 py-2 rounded-lg hover:bg-blue-700 transition"
         >
           Go to Billing
         </Link>
+
+        {/* Stocks Button */}
         <Link
           to="/stocks"
           className="bg-green-600 text-white px-5 py-2 rounded-lg hover:bg-green-700 transition"
         >
           View Stocks
         </Link>
+
+        {/* NEW: Customer History Button */}
+        <Link
+          to="/fena/customer-history"
+          className="bg-purple-600 text-white px-5 py-2 rounded-lg hover:bg-purple-700 transition"
+        >
+          Customer History
+        </Link>
+
+        {/* Logout Button */}
         <button
           onClick={handleLogout}
           className="bg-red-600 text-white px-5 py-2 rounded-lg hover:bg-red-700 transition"

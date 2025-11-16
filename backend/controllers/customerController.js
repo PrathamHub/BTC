@@ -1,5 +1,5 @@
 import Customer from "../models/Customer.js";
-
+import Bill from "../models/Bill.js";
 /* ---------------------------------------------------------
  ✅ CREATE or ADD BILL for EXISTING CUSTOMER
    - If customer exists → add new bill entry (same name)
@@ -173,5 +173,24 @@ export const getTotalAmount = async (req, res) => {
     res.json({ totalAmount: total });
   } catch (error) {
     res.status(500).json({ message: error.message });
+  }
+};
+export const getAllBills = async (req, res) => {
+  try {
+    console.log("PARAM:", req.params); // 👈 check incoming
+    const customerName = req.params.customerName;
+
+    console.log("Searching bills for:", customerName);
+
+    const bills = await Bill.find({
+      customerName: { $regex: customerName, $options: "i" },
+    });
+
+    console.log("Found bills:", bills.length);
+
+    res.status(200).json(bills);
+  } catch (error) {
+    console.log("❌ ERROR in getAllBills:", error);
+    res.status(500).json({ message: "Server Error", error: error.message });
   }
 };

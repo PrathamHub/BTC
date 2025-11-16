@@ -10,6 +10,7 @@ import AllBills from "./components/AllBills";
 import Home from "./pages/Home";
 import Login from "./components/Login";
 import ProtectedRoute from "./components/ProtectedRoute";
+import CustomerHistory from "./pages/CustomerHistory";
 function App() {
   return (
     <>
@@ -30,6 +31,15 @@ function App() {
           element={
             <ProtectedRoute>
               <AllBills />
+            </ProtectedRoute>
+          }
+        />
+
+        <Route
+          path="/fena/customer-history"
+          element={
+            <ProtectedRoute>
+              <CustomerHistory />
             </ProtectedRoute>
           }
         />

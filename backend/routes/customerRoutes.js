@@ -7,6 +7,7 @@ import {
   updateCustomer,
   deleteCustomer,
   getTotalAmount,
+  getAllBills,
 } from "../controllers/customerController.js";
 
 const router = express.Router();
@@ -19,5 +20,6 @@ router.get("/name/:name", getCustomerByName);
 router.get("/search", searchCustomers);
 router.put("/:id", updateCustomer); // ✏️ Update customer
 router.delete("/:id", deleteCustomer); // ❌ Delete customer
+router.get("/getAllBills/:customerName", getAllBills);
 
 export default router;
