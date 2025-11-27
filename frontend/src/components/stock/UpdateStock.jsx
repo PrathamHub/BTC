@@ -40,13 +40,14 @@ const UpdateStock = () => {
     }));
   };
 
-  // Send all updates together
-  const handleUpdateAll = async () => {
+  // Generic function for BOTH buttons
+  const handleUpdateAll = async (mode) => {
     const updates = Object.entries(selectedProducts)
       .filter(([_, qty]) => qty !== "")
       .map(([productName, qty]) => ({
         productName,
-        bags: Number(qty),
+        quantity: Number(qty),
+        mode, // "add" or "replace"
       }));
 
     if (updates.length === 0) {
@@ -108,12 +109,23 @@ const UpdateStock = () => {
       </div>
 
       {Object.keys(selectedProducts).length > 0 && (
-        <button
-          onClick={handleUpdateAll}
-          className="bg-blue-600 text-white px-5 py-2 rounded-md hover:bg-blue-700"
-        >
-          Update All Selected
-        </button>
+        <div className="flex gap-4">
+          {/* ADD STOCK BUTTON */}
+          <button
+            onClick={() => handleUpdateAll("add")}
+            className="bg-green-600 text-white px-5 py-2 rounded-md hover:bg-green-700"
+          >
+            ➕ Add Stock
+          </button>
+
+          {/* REPLACE STOCK BUTTON */}
+          <button
+            onClick={() => handleUpdateAll("replace")}
+            className="bg-blue-600 text-white px-5 py-2 rounded-md hover:bg-blue-700"
+          >
+            ♻️ Replace Stock
+          </button>
+        </div>
       )}
     </div>
   );

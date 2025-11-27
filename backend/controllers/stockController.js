@@ -14,6 +14,9 @@ export const getAllStocks = async (req, res) => {
 // Update stock for multiple products
 export const updateStock = async (req, res) => {
   try {
+    console.log("🔵 Received update request:");
+    console.log(req.body); // FULL BODY
+
     const { updates } = req.body;
 
     if (!updates || !Array.isArray(updates)) {
@@ -23,23 +26,50 @@ export const updateStock = async (req, res) => {
     const results = [];
 
     for (const item of updates) {
-      const { productName, bags } = item;
+      console.log("🟡 Processing item:", item);
 
-      if (!productName || bags === undefined) continue;
+      const { productName, quantity, mode } = item;
 
-      // Find the product by name
+      if (!productName || quantity === undefined) {
+        console.log("⚠️ Missing fields, skipping item.");
+        continue;
+      }
+
+      // Find product
       const product = await Product.findOne({ name: productName });
       if (!product) {
+        console.log(`❌ Product not found: ${productName}`);
         results.push({ productName, status: "Product not found" });
         continue;
       }
 
-      // Update or create stock
-      const updatedStock = await Stock.findOneAndUpdate(
-        { product: product._id },
-        { bags, lastUpdated: Date.now() },
-        { new: true, upsert: true } // create if not exists
-      );
+      // Get existing stock
+      let stock = await Stock.findOne({ product: product._id });
+
+      if (!stock) {
+        console.log("📦 Creating new stock entry...");
+        stock = new Stock({
+          product: product._id,
+          bags: 0,
+          lastUpdated: Date.now(),
+        });
+      }
+
+      console.log("📘 Current stock:", stock.bags);
+      console.log("📙 Quantity received:", quantity);
+      console.log("📗 Mode:", mode);
+
+      // UPDATE LOGIC
+      if (mode === "add") {
+        stock.bags += quantity;
+        console.log("➕ New stock after ADD:", stock.bags);
+      } else if (mode === "replace") {
+        stock.bags = quantity;
+        console.log("♻️ New stock after REPLACE:", stock.bags);
+      }
+
+      stock.lastUpdated = Date.now();
+      const updatedStock = await stock.save();
 
       results.push({
         productName,
@@ -48,9 +78,9 @@ export const updateStock = async (req, res) => {
       });
     }
 
-    res.status(200).json({ message: "Stock update process complete", results });
+    res.status(200).json({ message: "Stock update complete", results });
   } catch (error) {
-    console.error("Error updating stock:", error);
+    console.error("🔥 Error updating stock:", error);
     res
       .status(500)
       .json({ message: "Error updating stock", error: error.message });
