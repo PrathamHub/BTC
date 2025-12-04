@@ -3,11 +3,10 @@ import ProductSelector from "../components/ProductSelector";
 import BillTable from "../components/BillTable";
 import FreeItems from "../components/FreeItem";
 import BillSummary from "../components/BillSummery";
+import CustomerInput from "../components/CustomerInput";
 import { createBill } from "../services/api";
 import { products } from "../data/Product";
 import { toast } from "react-toastify";
-import axios from "axios";
-const API_BASE_URL = import.meta.env.VITE_API_BASE_URL;
 
 const CreateBill = () => {
   const [note, setNote] = useState("");
@@ -15,8 +14,9 @@ const CreateBill = () => {
   const [freeItems, setFreeItems] = useState([]);
   const [grandTotal, setGrandTotal] = useState(0);
   const [customerName, setCustomerName] = useState("");
-  const [customerSuggestions, setCustomerSuggestions] = useState([]);
   const [focusedProductId, setFocusedProductId] = useState(null);
+
+  // Add product
   const addProduct = (product) => {
     if (billItems.find((item) => item.id === product.id)) return;
     const newItems = [
@@ -30,9 +30,10 @@ const CreateBill = () => {
       },
     ];
     setBillItems(newItems);
-    setFocusedProductId(product.id); // 👈 Focus this product’s quantity field
+    setFocusedProductId(product.id);
   };
 
+  // Update item quantity/price
   const updateItem = (id, field, value) => {
     const updated = billItems.map((item) => {
       if (item.id === id) {
@@ -63,6 +64,7 @@ const CreateBill = () => {
     setGrandTotal(total);
   };
 
+  // Free Items
   const addFreeItem = () =>
     setFreeItems([...freeItems, { name: "", quantity: 1, bags: 0, pieces: 0 }]);
 
@@ -75,6 +77,7 @@ const CreateBill = () => {
   const removeFreeItem = (index) =>
     setFreeItems(freeItems.filter((_, i) => i !== index));
 
+  // Total Dispatch
   const totalDispatch = products.map((p) => {
     const bill = billItems.find((i) => i.name === p.name) || {};
     const free = freeItems.find((i) => i.name === p.name) || {};
@@ -89,7 +92,15 @@ const CreateBill = () => {
   const totalBags = totalDispatch.reduce((sum, i) => sum + i.totalBags, 0);
   const totalPieces = totalDispatch.reduce((sum, i) => sum + i.totalPieces, 0);
 
+  // Generate Bill
   const handleGenerateBill = async () => {
+    if (!customerName.trim()) {
+      toast.warning(
+        "⚠️ Please enter a customer name before generating the bill."
+      );
+      return;
+    }
+
     const data = {
       customerName,
       items: billItems,
@@ -98,13 +109,6 @@ const CreateBill = () => {
       totalDispatch,
       note,
     };
-
-    if (!customerName || customerName.trim() === "") {
-      toast.warning(
-        "⚠️ Please enter a customer name before generating the bill."
-      );
-      return;
-    }
 
     try {
       await createBill(data);
@@ -116,67 +120,24 @@ const CreateBill = () => {
       setNote("");
     } catch (error) {
       console.error("❌ Failed to create bill:", error);
-      toast.error(
-        error.response?.data?.message ||
-          "❌ Something went wrong while creating the bill!"
-      );
+      toast.error(error.response?.data?.message || "❌ Something went wrong!");
     }
   };
 
   return (
     <div className="min-h-screen bg-gray-100 p-4 sm:p-6 md:p-8">
       <div className="max-w-6xl mx-auto bg-white p-4 sm:p-6 md:p-8 rounded-lg shadow-md">
-        {/* 🧾 Header */}
         <h1 className="text-2xl sm:text-3xl font-bold text-center mb-6 text-gray-800">
           🧾 FENA BILLING SYSTEM
         </h1>
 
-        {/* 🧍 Customer Section */}
-        <div className="mb-6 relative">
-          <label className="block text-base sm:text-lg font-medium mb-2 text-gray-700">
-            Customer Name
-          </label>
-          <input
-            type="text"
-            value={customerName}
-            onChange={async (e) => {
-              setCustomerName(e.target.value);
-              if (e.target.value.trim() === "")
-                return setCustomerSuggestions([]);
+        {/* Customer Input */}
+        <CustomerInput
+          customerName={customerName}
+          setCustomerName={setCustomerName}
+        />
 
-              try {
-                const res = await axios.get(
-                  `${API_BASE_URL}/customers/search?q=${e.target.value}`
-                );
-                setCustomerSuggestions(res.data);
-              } catch (err) {
-                console.error("Error fetching customer suggestions", err);
-              }
-            }}
-            placeholder="Enter customer name"
-            className="w-full border border-gray-300 rounded-md p-2 sm:p-3 text-sm sm:text-base focus:ring-2 focus:ring-blue-400 outline-none"
-          />
-          {customerSuggestions.length > 0 && (
-            <ul className="absolute z-50 bg-white border w-full max-h-48 overflow-y-auto mt-1 rounded-md shadow-md">
-              {customerSuggestions.map((c, idx) => (
-                <li
-                  key={idx}
-                  className="px-3 py-2 hover:bg-blue-100 cursor-pointer text-sm sm:text-base"
-                  onClick={() => {
-                    setCustomerName(c.name);
-                    setCustomerSuggestions([]);
-                  }}
-                >
-                  {c.name}
-                </li>
-              ))}
-            </ul>
-          )}
-        </div>
-
-        {/* 📦 Main Layout */}
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
-          {/* Left side: Products & Bill Table */}
           <div className="space-y-6">
             <ProductSelector addProduct={addProduct} />
             <BillTable
@@ -187,7 +148,6 @@ const CreateBill = () => {
             />
           </div>
 
-          {/* Right side: Free Items & Summary */}
           <div className="space-y-6">
             <FreeItems
               freeItems={freeItems}
@@ -206,7 +166,6 @@ const CreateBill = () => {
           </div>
         </div>
 
-        {/* 📝 Note Section */}
         <div className="mt-8">
           <label className="block text-base sm:text-lg font-medium mb-2 text-gray-700">
             Note (optional)
