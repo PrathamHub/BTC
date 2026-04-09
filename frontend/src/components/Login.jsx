@@ -15,10 +15,11 @@ const Login = () => {
     try {
       const res = await axios.post(
         `${import.meta.env.VITE_API_BASE_URL}/auth/login`,
-        { email, password }
+        { email, password },
       );
 
       login(res.data.token); // ✅ updates context instantly
+      window.dispatchEvent(new Event("authChange"));
       toast.success("✅ Logged in successfully!");
       navigate("/fena");
     } catch (err) {
