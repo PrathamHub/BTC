@@ -5,6 +5,7 @@ import {
   deleteBill as deleteBillAPI,
   updateBillAPI,
 } from "../services/api";
+import { Link } from "react-router-dom";
 
 const AllBills = () => {
   const [bills, setBills] = useState([]);
@@ -165,6 +166,7 @@ const AllBills = () => {
                 <thead>
                   <tr className="bg-gradient-to-r from-blue-500 to-blue-600 text-white text-center">
                     <th className="border px-4 py-3">#</th>
+                    <th className="border px-4 py-3">Action</th>
                     <th className="border px-4 py-3">Customer Name</th>
                     <th className="border px-4 py-3">Total Amount</th>
                     <th className="border px-4 py-3">Items</th>
@@ -183,6 +185,16 @@ const AllBills = () => {
                         className="text-center hover:bg-blue-50 transition-all duration-150"
                       >
                         <td className="border px-4 py-2">{idx + 1}</td>
+                        <td className="border px-4 py-2">
+                          <Link
+                            to={`/fena/bills/update-stock/${bill._id}`}
+                            state={{ bill }}
+                            className="text-blue-600 underline"
+                            onClick={() => console.log("Clicked Bill:", bill)}
+                          >
+                            Update
+                          </Link>
+                        </td>
                         <td className="border px-4 py-2 font-semibold text-gray-800">
                           {bill.customerName}
                         </td>

@@ -1,14 +1,16 @@
 import React from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
+import { useAuth } from "../context/AuthContext"; // adjust path
 
 const Home = () => {
+  const { token, logout } = useAuth();
   const navigate = useNavigate();
 
   // ✅ Logout Handler
   const handleLogout = () => {
-    localStorage.removeItem("token");
-    toast.success("✅ Logged out successfully!");
+    logout(); // 👈 using global logout
+    toast.success("Logged out successfully!");
     navigate("/login");
   };
 
@@ -32,8 +34,8 @@ const Home = () => {
 
         {/* Stocks Button */}
         <Link
-          to="/stocks"
-          className="bg-green-600 text-white px-5 py-2 rounded-lg hover:bg-green-700 transition"
+          to="/fena/stocks"
+          className="bg-green-600 text-white px-5 py-2 roun ded-lg hover:bg-green-700 transition"
         >
           View Stocks
         </Link>
@@ -46,13 +48,25 @@ const Home = () => {
           Customer History
         </Link>
 
-        {/* Logout Button */}
-        <button
-          onClick={handleLogout}
-          className="bg-red-600 text-white px-5 py-2 rounded-lg hover:bg-red-700 transition"
-        >
-          Logout
-        </button>
+        {/* 🔥 Show Login if user is NOT logged in */}
+        {/* {!token && (
+          <Link
+            to="/login"
+            className="bg-blue-500 text-white px-5 py-2 rounded-lg hover:bg-blue-600 transition"
+          >
+            Login
+          </Link>
+        )} */}
+
+        {/* 🔥 Show Logout if user IS logged in */}
+        {/* {token && (
+          <button
+            onClick={handleLogout}
+            className="bg-red-600 text-white px-5 py-2 rounded-lg hover:bg-red-700 transition"
+          >
+            Logout
+          </button>
+        )} */}
       </div>
     </div>
   );

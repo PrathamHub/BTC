@@ -6,11 +6,12 @@ import { Route, Routes } from "react-router-dom";
 import GetAllStock from "./components/stock/GetAllStock";
 import UpdateStock from "./components/stock/UpdateStock";
 import AllBills from "./components/AllBills";
-
+import EditBillPage from "./pages/EditBillPage";
 import Home from "./pages/Home";
 import Login from "./components/Login";
 import ProtectedRoute from "./components/ProtectedRoute";
 import CustomerHistory from "./pages/CustomerHistory";
+import EditBill from "./pages/EditBillPage";
 function App() {
   return (
     <>
@@ -56,6 +57,14 @@ function App() {
           element={
             <ProtectedRoute>
               <UpdateStock />
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="/fena/bills/update-stock/:id"
+          element={
+            <ProtectedRoute>
+              <EditBillPage />
             </ProtectedRoute>
           }
         />

@@ -4,6 +4,7 @@ import {
   deleteBill,
   getAllBills,
   getBillsByCustomer,
+  updateBill,
 } from "../controllers/billController.js";
 import Bill from "../models/Bill.js";
 
@@ -13,6 +14,7 @@ router.delete("/:id", deleteBill);
 router.post("/create", createBill);
 router.get("/", getAllBills);
 router.get("/:name", getBillsByCustomer);
+
 router.put("/:id", async (req, res) => {
   try {
     const bill = await Bill.findByIdAndUpdate(req.params.id, req.body, {

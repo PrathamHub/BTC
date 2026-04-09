@@ -134,3 +134,11 @@ export const deleteBill = async (req, res) => {
     res.status(500).json({ message: "Server error" });
   }
 };
+
+export const updateBill = async (req, res) => {
+  const { id } = req.params;
+  const billData = req.body;
+
+  const updated = await Bill.findByIdAndUpdate(id, billData, { new: true });
+  res.json(updated);
+};
